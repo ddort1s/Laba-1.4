@@ -2,7 +2,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int N = 100;
+        int N = 8;
         int minPrime = -1;  
         long productNonPrime = 1;
         boolean hasNonPrime = false;
