@@ -17,10 +17,7 @@ public class Main2 {
             } catch (NumberFormatException e) {
                 continue;
             }
-
-            if (!scanner.hasNextLine()) {
-                break;
-            }
+            
             String targetBook = scanner.nextLine();
 
             if (targetBook.equalsIgnoreCase("stop")) {
