@@ -5,76 +5,69 @@ public class Main2 {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            String input = scanner.nextLine();
-
-            if (input.equalsIgnoreCase("stop")) {
-                break;
-            }
+            if (!scanner.hasNextLine()) break;
+            String line = scanner.nextLine().trim();
+            if (line.equalsIgnoreCase("stop")) break;
 
             int countShelfBooks;
             try {
-                countShelfBooks = Integer.parseInt(input);
+                countShelfBooks = Integer.parseInt(line);
             } catch (NumberFormatException e) {
                 continue;
             }
-            
-            String targetBook = scanner.nextLine();
 
-            if (targetBook.equalsIgnoreCase("stop")) {
-                System.out.println("You checked 0 books and did not find " + targetBook);
-                break;
-            }
+            if (!scanner.hasNextLine()) break;
+            String targetBook = scanner.nextLine();
+            if (targetBook.equalsIgnoreCase("stop")) break;
 
             boolean found = false;
             int checkedBooks = 0;
 
-            for (int i = 0; i < countShelfBooks; i++) {
+            while (true) {
+                if (checkedBooks >= countShelfBooks) {
+                    if (!found) {
+                        System.out.println("You did not find " + targetBook);
+                    }
+                    break;
+                }
+
                 if (!scanner.hasNextLine()) {
 
-                    System.out.println("You checked " + checkedBooks + " books and did not find " + targetBook);
+                    if (!found) {
+                        System.out.println("You did not find " + targetBook);
+                    }
                     return;
                 }
 
-                String currentInput = scanner.nextLine();
+                String current = scanner.nextLine();
 
-                if (currentInput.equalsIgnoreCase("stop")) {
-                    System.out.println("You checked " + checkedBooks + " books and did not find " + targetBook);
+                if (current.equalsIgnoreCase("stop")) {
                     return;
                 }
-
                 try {
-                    Integer.parseInt(currentInput);
+                    int newCount = Integer.parseInt(current.trim());
+//                    if (!found) {
+//                        System.out.println("You did not find " + targetBook);
+//                    }
+                    countShelfBooks = newCount;
 
-                    System.out.println("You checked " + checkedBooks + " books and did not find " + targetBook);
+                    if (!scanner.hasNextLine()) return;
+                    targetBook = scanner.nextLine();
+                    if (targetBook.equalsIgnoreCase("stop")) return;
 
-                    countShelfBooks = Integer.parseInt(currentInput);
-
-                    if (!scanner.hasNextLine()) {
-                        return;
-                    }
-                    targetBook = scanner.nextLine().trim();
-
-                    if (targetBook.equalsIgnoreCase("stop")) {
-                        System.out.println("You checked 0 books and did not find " + targetBook);
-                        return;
-                    }
-
-                    found = false;
                     checkedBooks = 0;
-                    i = -1;
-                } catch (NumberFormatException e) {
-                    checkedBooks++;
+                    found = false;
+                    continue;
+                } catch (NumberFormatException ignored) {
 
-                    if (currentInput.equals(targetBook)) {
-                        System.out.println("Checked " + checkedBooks + " books and found " + targetBook);
-                        found = true;
-                        break;
-                    }
                 }
-            }
 
-            if (!found && checkedBooks == countShelfBooks) {
-                System.out.println("You did not find " + targetBook);
+                checkedBooks++;
+                if (current.equals(targetBook)) {
+                    System.out.println("Checked " + checkedBooks + " books and found " + targetBook);
+                    found = true;
+                    break;
+                }
             }
         }
     }
